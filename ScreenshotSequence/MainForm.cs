@@ -127,7 +127,7 @@ namespace ScreenshotSequence
 
         private void CaptureScreenshot()
         {
-            throw new NotImplementedException();
+            
         }
 
         private void BreakCurrentCaptureSequence()

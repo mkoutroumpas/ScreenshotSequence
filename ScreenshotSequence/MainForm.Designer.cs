@@ -35,11 +35,12 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.nudDuration = new System.Windows.Forms.NumericUpDown();
+            this.lblCaptureDuration = new System.Windows.Forms.Label();
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.nudDuration = new System.Windows.Forms.NumericUpDown();
-            this.lblCaptureDuration = new System.Windows.Forms.Label();
+            this.lblDirectory = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
@@ -47,7 +48,7 @@ namespace ScreenshotSequence
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(23, 154);
+            this.btnStartStop.Location = new System.Drawing.Point(22, 219);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(286, 66);
             this.btnStartStop.TabIndex = 0;
@@ -62,7 +63,7 @@ namespace ScreenshotSequence
             0,
             0,
             65536});
-            this.nudInterval.Location = new System.Drawing.Point(220, 54);
+            this.nudInterval.Location = new System.Drawing.Point(219, 108);
             this.nudInterval.Maximum = new decimal(new int[] {
             10,
             0,
@@ -85,7 +86,7 @@ namespace ScreenshotSequence
             // lblInterval
             // 
             this.lblInterval.AutoSize = true;
-            this.lblInterval.Location = new System.Drawing.Point(24, 56);
+            this.lblInterval.Location = new System.Drawing.Point(23, 110);
             this.lblInterval.Name = "lblInterval";
             this.lblInterval.Size = new System.Drawing.Size(133, 13);
             this.lblInterval.TabIndex = 2;
@@ -94,7 +95,7 @@ namespace ScreenshotSequence
             // lblOutputDirectory
             // 
             this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(24, 90);
+            this.lblOutputDirectory.Location = new System.Drawing.Point(23, 144);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(71, 13);
             this.lblOutputDirectory.TabIndex = 3;
@@ -103,6 +104,7 @@ namespace ScreenshotSequence
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.lblDirectory);
             this.pnlMain.Controls.Add(this.nudDuration);
             this.pnlMain.Controls.Add(this.lblCaptureDuration);
             this.pnlMain.Controls.Add(this.cbClearFolder);
@@ -113,33 +115,12 @@ namespace ScreenshotSequence
             this.pnlMain.Controls.Add(this.lblInterval);
             this.pnlMain.Location = new System.Drawing.Point(12, 12);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(329, 237);
+            this.pnlMain.Size = new System.Drawing.Size(329, 302);
             this.pnlMain.TabIndex = 4;
-            // 
-            // cbClearFolder
-            // 
-            this.cbClearFolder.AutoSize = true;
-            this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbClearFolder.Location = new System.Drawing.Point(23, 122);
-            this.cbClearFolder.Name = "cbClearFolder";
-            this.cbClearFolder.Size = new System.Drawing.Size(149, 17);
-            this.cbClearFolder.TabIndex = 6;
-            this.cbClearFolder.Text = "Empty selected folder first:";
-            this.cbClearFolder.UseVisualStyleBackColor = true;
-            // 
-            // btnSelectFolder
-            // 
-            this.btnSelectFolder.Location = new System.Drawing.Point(274, 85);
-            this.btnSelectFolder.Name = "btnSelectFolder";
-            this.btnSelectFolder.Size = new System.Drawing.Size(35, 22);
-            this.btnSelectFolder.TabIndex = 4;
-            this.btnSelectFolder.Text = "...";
-            this.btnSelectFolder.UseVisualStyleBackColor = true;
-            this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
             // 
             // nudDuration
             // 
-            this.nudDuration.Location = new System.Drawing.Point(220, 19);
+            this.nudDuration.Location = new System.Drawing.Point(219, 73);
             this.nudDuration.Maximum = new decimal(new int[] {
             10,
             0,
@@ -162,17 +143,47 @@ namespace ScreenshotSequence
             // lblCaptureDuration
             // 
             this.lblCaptureDuration.AutoSize = true;
-            this.lblCaptureDuration.Location = new System.Drawing.Point(24, 21);
+            this.lblCaptureDuration.Location = new System.Drawing.Point(23, 75);
             this.lblCaptureDuration.Name = "lblCaptureDuration";
             this.lblCaptureDuration.Size = new System.Drawing.Size(137, 13);
             this.lblCaptureDuration.TabIndex = 8;
             this.lblCaptureDuration.Text = "Capture duration (seconds):";
             // 
+            // cbClearFolder
+            // 
+            this.cbClearFolder.AutoSize = true;
+            this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbClearFolder.Location = new System.Drawing.Point(22, 176);
+            this.cbClearFolder.Name = "cbClearFolder";
+            this.cbClearFolder.Size = new System.Drawing.Size(149, 17);
+            this.cbClearFolder.TabIndex = 6;
+            this.cbClearFolder.Text = "Empty selected folder first:";
+            this.cbClearFolder.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectFolder
+            // 
+            this.btnSelectFolder.Location = new System.Drawing.Point(273, 139);
+            this.btnSelectFolder.Name = "btnSelectFolder";
+            this.btnSelectFolder.Size = new System.Drawing.Size(35, 22);
+            this.btnSelectFolder.TabIndex = 4;
+            this.btnSelectFolder.Text = "...";
+            this.btnSelectFolder.UseVisualStyleBackColor = true;
+            this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
+            // 
+            // lblDirectory
+            // 
+            this.lblDirectory.AutoSize = true;
+            this.lblDirectory.Location = new System.Drawing.Point(95, 144);
+            this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
+            this.lblDirectory.Name = "lblDirectory";
+            this.lblDirectory.Size = new System.Drawing.Size(0, 13);
+            this.lblDirectory.TabIndex = 9;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(349, 261);
+            this.ClientSize = new System.Drawing.Size(349, 326);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -202,6 +213,7 @@ namespace ScreenshotSequence
         private System.Windows.Forms.CheckBox cbClearFolder;
         private NumericUpDown nudDuration;
         private Label lblCaptureDuration;
+        private Label lblDirectory;
     }
 }
 
