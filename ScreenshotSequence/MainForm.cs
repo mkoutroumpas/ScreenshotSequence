@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -7,6 +9,7 @@ namespace ScreenshotSequence
 {
     public partial class MainForm : Form
     {
+        private string _selectedAppName = "";
         private string _folderPath = "";
         private bool _isStarted = false;
         private CancellationTokenSource _source = null;
@@ -23,6 +26,8 @@ namespace ScreenshotSequence
             _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
 
             EnableControls(true);
+
+            LoadAvailableApps();
         }
 
         private async void MainForm_KeyPress(object sender, KeyPressEventArgs e)
@@ -37,6 +42,22 @@ namespace ScreenshotSequence
             }
 
             e.Handled = true;
+        }
+
+        private void LoadAvailableApps()
+        {
+            string appFriendlyName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
+
+            var apps = new List<string>();
+            foreach (var p in Process.GetProcesses())
+            {
+                if (!string.IsNullOrEmpty(p.MainWindowTitle) && !p.MainWindowTitle.Contains(appFriendlyName))
+                {
+                    apps.Add(p.MainWindowTitle);
+                }
+            }
+            
+            lbAvailableApps.DataSource = apps;
         }
 
         #endregion
@@ -74,6 +95,7 @@ namespace ScreenshotSequence
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
             cbClearFolder.Enabled = enable;
+            lbAvailableApps.Enabled = enable;
 
             btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
         }
