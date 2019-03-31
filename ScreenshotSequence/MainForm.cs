@@ -9,7 +9,7 @@ namespace ScreenshotSequence
 {
     public partial class MainForm : Form
     {
-        private string _selectedAppName = "";
+        private IntPtr _selectedAppHandle = default(IntPtr);
         private string _folderPath = "";
         private bool _isStarted = false;
         private CancellationTokenSource _source = null;
@@ -60,6 +60,22 @@ namespace ScreenshotSequence
             lbAvailableApps.DataSource = apps;
         }
 
+        private IntPtr GetAppWindowHanle(string appname)
+        {
+            if (string.IsNullOrEmpty(appname))
+                return default(IntPtr);
+
+            foreach (var p in Process.GetProcesses())
+            {
+                if (p.MainWindowTitle.Contains(appname))
+                {
+                    return p.MainWindowHandle;
+                }
+            }
+
+            return default(IntPtr);
+        }
+
         #endregion
 
         #region UI interaction
@@ -107,6 +123,8 @@ namespace ScreenshotSequence
         private async Task Start()
         {
             EnableControls(false);
+
+            _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
 
             _isStarted = true;
 
