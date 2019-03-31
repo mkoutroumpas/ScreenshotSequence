@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -9,16 +11,26 @@ namespace ScreenshotSequence
 {
     public partial class MainForm : Form
     {
-        private IntPtr _selectedAppHandle = default(IntPtr);
         private string _folderPath = "";
         private bool _isStarted = false;
+
         private CancellationTokenSource _source = null;
+        private IntPtr _selectedAppHandle = default(IntPtr);
+
+        private readonly string _appFriendlyName;
+        private readonly Screenshot _screenshot = null;
+        private readonly List<Image> _images = null;
 
         #region Initialization
 
         public MainForm()
         {
             InitializeComponent();
+
+            _appFriendlyName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
+
+            _images = new List<Image>();
+            _screenshot = new Screenshot();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -46,12 +58,10 @@ namespace ScreenshotSequence
 
         private void LoadAvailableApps()
         {
-            string appFriendlyName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
-
             var apps = new List<string>();
             foreach (var p in Process.GetProcesses())
             {
-                if (!string.IsNullOrEmpty(p.MainWindowTitle) && !p.MainWindowTitle.Contains(appFriendlyName))
+                if (!string.IsNullOrEmpty(p.MainWindowTitle) && !p.MainWindowTitle.Contains(_appFriendlyName))
                 {
                     apps.Add(p.MainWindowTitle);
                 }
@@ -122,9 +132,17 @@ namespace ScreenshotSequence
 
         private async Task Start()
         {
+            if (string.IsNullOrEmpty(_folderPath))
+            {
+                MessageBox.Show("You must select a target folder.", "Missing selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             EnableControls(false);
 
             _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
+
+            _images.Clear();
 
             _isStarted = true;
 
@@ -137,7 +155,41 @@ namespace ScreenshotSequence
 
             EnableControls(true);
 
+            DumpImages(cbClearFolder.Checked);
+
             _isStarted = false;
+        }
+
+        private void DumpImages(bool clear)
+        {
+            if (string.IsNullOrEmpty(_folderPath))
+                return;
+
+            DirectoryInfo di = new DirectoryInfo(_folderPath);
+
+            if (clear)
+            {
+                foreach (var file in di.GetFiles())
+                {
+                    if (file.Name.Contains(_appFriendlyName))
+                    {
+                        file.Delete();
+                    }
+                }
+            }
+
+            if (_images.Count > 0)
+            {
+                foreach (var image in _images)
+                {
+                    DumpImage(image);
+                }
+            }
+        }
+
+        private void DumpImage(Image image)
+        {
+            throw new NotImplementedException();
         }
 
         private void StartNewCaptureSequence(int intervalms)
@@ -160,14 +212,21 @@ namespace ScreenshotSequence
                 {
                     cTicks = Environment.TickCount;
 
-                    CaptureScreenshot();
+                    var image = CaptureScreenshot(_selectedAppHandle);
+                    if (image != null)
+                    {
+                        _images.Add(image);
+                    }
                 }
             }
         }
 
-        private void CaptureScreenshot()
+        private Image CaptureScreenshot(IntPtr handle)
         {
-            
+            if (_selectedAppHandle == default(IntPtr))
+                return null;
+
+            return _screenshot?.CaptureWindow(handle);
         }
 
         private void BreakCurrentCaptureSequence()
