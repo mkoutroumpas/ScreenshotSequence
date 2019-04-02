@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -182,14 +183,18 @@ namespace ScreenshotSequence
             {
                 foreach (var image in _images)
                 {
-                    DumpImage(image);
+                    DumpImage(image, di);
                 }
             }
         }
 
-        private void DumpImage(Image image)
+        private void DumpImage(Image image, DirectoryInfo di) 
         {
-            throw new NotImplementedException();
+            if (di == null || image == null)
+                return;
+
+            // Are we sure that image is encoded in PNG format? Debug, and if not, see: https://www.codeproject.com/Questions/1197454/Save-system-drawing-image-as-PNG-without-interlace 
+            image.Save(Path.Combine(di.FullName, _appFriendlyName + "_" + new Guid().ToString().Replace("-", "") + ".png"), ImageFormat.Png); 
         }
 
         private void StartNewCaptureSequence(int intervalms)
