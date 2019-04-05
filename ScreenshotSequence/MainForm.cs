@@ -171,6 +171,8 @@ namespace ScreenshotSequence
                 _isStarted = false;
 
                 DumpImages(cbClearFolder.Checked);
+
+                _source.Dispose();
             }
         }
 
@@ -252,7 +254,6 @@ namespace ScreenshotSequence
         private void BreakCurrentCaptureSequence()
         {
             _source.Cancel();
-            _source.Dispose();
         }
 
         #endregion
