@@ -36,8 +36,6 @@ namespace ScreenshotSequence
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
-
             EnableControls(true);
 
             LoadAvailableApps();
@@ -91,6 +89,11 @@ namespace ScreenshotSequence
 
         #region UI interaction
 
+        private void btnRefresh_Click(object sender, EventArgs e)
+        {
+            LoadAvailableApps();
+        }
+
         private async void btnStartStop_Click(object sender, EventArgs e)
         {
             if (!_isStarted)
@@ -121,6 +124,7 @@ namespace ScreenshotSequence
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
+            btnRefresh.Enabled = enable;
             cbClearFolder.Enabled = enable;
             lbAvailableApps.Enabled = enable;
 
@@ -146,6 +150,8 @@ namespace ScreenshotSequence
             _images.Clear();
 
             _isStarted = true;
+
+            _source = new CancellationTokenSource(600 * 1000); ////_source = new CancellationTokenSource((int)nudDuration.Value * 1000);
 
             await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token).ConfigureAwait(false);
         }

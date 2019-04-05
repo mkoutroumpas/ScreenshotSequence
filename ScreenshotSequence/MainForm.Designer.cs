@@ -35,14 +35,15 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.lbAvailableApps = new System.Windows.Forms.ListBox();
+            this.lblOpenApps = new System.Windows.Forms.Label();
+            this.lblDirectory = new System.Windows.Forms.Label();
             this.nudDuration = new System.Windows.Forms.NumericUpDown();
             this.lblCaptureDuration = new System.Windows.Forms.Label();
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.lblDirectory = new System.Windows.Forms.Label();
-            this.lblOpenApps = new System.Windows.Forms.Label();
-            this.lbAvailableApps = new System.Windows.Forms.ListBox();
+            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
@@ -50,7 +51,7 @@ namespace ScreenshotSequence
             // 
             // btnStartStop
             // 
-            this.btnStartStop.Location = new System.Drawing.Point(22, 219);
+            this.btnStartStop.Location = new System.Drawing.Point(22, 313);
             this.btnStartStop.Name = "btnStartStop";
             this.btnStartStop.Size = new System.Drawing.Size(481, 66);
             this.btnStartStop.TabIndex = 5;
@@ -66,7 +67,7 @@ namespace ScreenshotSequence
             0,
             0,
             65536});
-            this.nudInterval.Location = new System.Drawing.Point(414, 109);
+            this.nudInterval.Location = new System.Drawing.Point(414, 179);
             this.nudInterval.Maximum = new decimal(new int[] {
             1,
             0,
@@ -89,7 +90,7 @@ namespace ScreenshotSequence
             // lblInterval
             // 
             this.lblInterval.AutoSize = true;
-            this.lblInterval.Location = new System.Drawing.Point(218, 111);
+            this.lblInterval.Location = new System.Drawing.Point(218, 181);
             this.lblInterval.Name = "lblInterval";
             this.lblInterval.Size = new System.Drawing.Size(133, 13);
             this.lblInterval.TabIndex = 2;
@@ -98,7 +99,7 @@ namespace ScreenshotSequence
             // lblOutputDirectory
             // 
             this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(23, 144);
+            this.lblOutputDirectory.Location = new System.Drawing.Point(23, 214);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(71, 13);
             this.lblOutputDirectory.TabIndex = 3;
@@ -107,6 +108,7 @@ namespace ScreenshotSequence
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.btnRefresh);
             this.pnlMain.Controls.Add(this.lbAvailableApps);
             this.pnlMain.Controls.Add(this.lblOpenApps);
             this.pnlMain.Controls.Add(this.lblDirectory);
@@ -120,12 +122,38 @@ namespace ScreenshotSequence
             this.pnlMain.Controls.Add(this.lblInterval);
             this.pnlMain.Location = new System.Drawing.Point(12, 12);
             this.pnlMain.Name = "pnlMain";
-            this.pnlMain.Size = new System.Drawing.Size(525, 302);
+            this.pnlMain.Size = new System.Drawing.Size(525, 402);
             this.pnlMain.TabIndex = 4;
+            // 
+            // lbAvailableApps
+            // 
+            this.lbAvailableApps.FormattingEnabled = true;
+            this.lbAvailableApps.Location = new System.Drawing.Point(123, 24);
+            this.lbAvailableApps.Name = "lbAvailableApps";
+            this.lbAvailableApps.Size = new System.Drawing.Size(380, 108);
+            this.lbAvailableApps.TabIndex = 0;
+            // 
+            // lblOpenApps
+            // 
+            this.lblOpenApps.AutoSize = true;
+            this.lblOpenApps.Location = new System.Drawing.Point(23, 36);
+            this.lblOpenApps.Name = "lblOpenApps";
+            this.lblOpenApps.Size = new System.Drawing.Size(94, 13);
+            this.lblOpenApps.TabIndex = 10;
+            this.lblOpenApps.Text = "Select application:";
+            // 
+            // lblDirectory
+            // 
+            this.lblDirectory.AutoSize = true;
+            this.lblDirectory.Location = new System.Drawing.Point(95, 214);
+            this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
+            this.lblDirectory.Name = "lblDirectory";
+            this.lblDirectory.Size = new System.Drawing.Size(0, 13);
+            this.lblDirectory.TabIndex = 9;
             // 
             // nudDuration
             // 
-            this.nudDuration.Location = new System.Drawing.Point(414, 83);
+            this.nudDuration.Location = new System.Drawing.Point(414, 153);
             this.nudDuration.Maximum = new decimal(new int[] {
             10,
             0,
@@ -148,7 +176,7 @@ namespace ScreenshotSequence
             // lblCaptureDuration
             // 
             this.lblCaptureDuration.AutoSize = true;
-            this.lblCaptureDuration.Location = new System.Drawing.Point(218, 85);
+            this.lblCaptureDuration.Location = new System.Drawing.Point(218, 155);
             this.lblCaptureDuration.Name = "lblCaptureDuration";
             this.lblCaptureDuration.Size = new System.Drawing.Size(137, 13);
             this.lblCaptureDuration.TabIndex = 8;
@@ -158,7 +186,7 @@ namespace ScreenshotSequence
             // 
             this.cbClearFolder.AutoSize = true;
             this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbClearFolder.Location = new System.Drawing.Point(22, 173);
+            this.cbClearFolder.Location = new System.Drawing.Point(22, 243);
             this.cbClearFolder.Name = "cbClearFolder";
             this.cbClearFolder.Size = new System.Drawing.Size(139, 17);
             this.cbClearFolder.TabIndex = 4;
@@ -167,7 +195,7 @@ namespace ScreenshotSequence
             // 
             // btnSelectFolder
             // 
-            this.btnSelectFolder.Location = new System.Drawing.Point(468, 139);
+            this.btnSelectFolder.Location = new System.Drawing.Point(468, 209);
             this.btnSelectFolder.Name = "btnSelectFolder";
             this.btnSelectFolder.Size = new System.Drawing.Size(35, 22);
             this.btnSelectFolder.TabIndex = 3;
@@ -175,37 +203,21 @@ namespace ScreenshotSequence
             this.btnSelectFolder.UseVisualStyleBackColor = true;
             this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
             // 
-            // lblDirectory
+            // btnRefresh
             // 
-            this.lblDirectory.AutoSize = true;
-            this.lblDirectory.Location = new System.Drawing.Point(95, 144);
-            this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
-            this.lblDirectory.Name = "lblDirectory";
-            this.lblDirectory.Size = new System.Drawing.Size(0, 13);
-            this.lblDirectory.TabIndex = 9;
-            // 
-            // lblOpenApps
-            // 
-            this.lblOpenApps.AutoSize = true;
-            this.lblOpenApps.Location = new System.Drawing.Point(23, 36);
-            this.lblOpenApps.Name = "lblOpenApps";
-            this.lblOpenApps.Size = new System.Drawing.Size(94, 13);
-            this.lblOpenApps.TabIndex = 10;
-            this.lblOpenApps.Text = "Select application:";
-            // 
-            // lbAvailableApps
-            // 
-            this.lbAvailableApps.FormattingEnabled = true;
-            this.lbAvailableApps.Location = new System.Drawing.Point(123, 24);
-            this.lbAvailableApps.Name = "lbAvailableApps";
-            this.lbAvailableApps.Size = new System.Drawing.Size(380, 43);
-            this.lbAvailableApps.TabIndex = 0;
+            this.btnRefresh.Location = new System.Drawing.Point(26, 83);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(91, 49);
+            this.btnRefresh.TabIndex = 11;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(549, 326);
+            this.ClientSize = new System.Drawing.Size(549, 426);
             this.Controls.Add(this.pnlMain);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -238,6 +250,7 @@ namespace ScreenshotSequence
         private Label lblDirectory;
         private ListBox lbAvailableApps;
         private Label lblOpenApps;
+        private Button btnRefresh;
     }
 }
 
