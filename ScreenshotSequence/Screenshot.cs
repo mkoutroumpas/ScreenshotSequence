@@ -6,12 +6,12 @@ namespace ScreenshotSequence
 {
     public class Screenshot
     {
-        public Image CaptureScreen()
+        public Bitmap CaptureScreen()
         {
             return CaptureWindow(User32.GetDesktopWindow());
         }
 
-        public Image CaptureWindow(IntPtr handle)
+        public Bitmap CaptureWindow(IntPtr handle)
         {
             IntPtr hdcSrc = User32.GetWindowDC(handle);
 
@@ -26,7 +26,7 @@ namespace ScreenshotSequence
             GDI32.SelectObject(hdcDest, hOld);
             GDI32.DeleteDC(hdcDest);
             User32.ReleaseDC(handle, hdcSrc);
-            Image img = Image.FromHbitmap(hBitmap);
+            Bitmap img = Image.FromHbitmap(hBitmap);
             GDI32.DeleteObject(hBitmap);
 
             return img;

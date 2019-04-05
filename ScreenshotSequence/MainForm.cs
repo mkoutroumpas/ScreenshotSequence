@@ -12,15 +12,20 @@ namespace ScreenshotSequence
 {
     public partial class MainForm : Form
     {
+        #region Members
+
         private string _folderPath = "";
         private bool _isStarted = false;
+        private Random _random;
 
         private CancellationTokenSource _source = null;
         private IntPtr _selectedAppHandle = default(IntPtr);
 
         private readonly string _appFriendlyName;
         private readonly Screenshot _screenshot = null;
-        private readonly List<Image> _images = null;
+        private readonly List<Bitmap> _images = null;
+
+        #endregion
 
         #region Initialization
 
@@ -30,9 +35,15 @@ namespace ScreenshotSequence
 
             _appFriendlyName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
 
-            _images = new List<Image>();
+            _random = new Random();
+
+            _images = new List<Bitmap>();
             _screenshot = new Screenshot();
         }
+
+        #endregion
+
+        #region UI interaction
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -49,7 +60,7 @@ namespace ScreenshotSequence
             }
             else if (e.KeyChar == (char)Keys.F12)
             {
-                Stop();
+                BreakCurrentCaptureSequence();
             }
 
             e.Handled = true;
@@ -65,7 +76,7 @@ namespace ScreenshotSequence
                     apps.Add(p.MainWindowTitle);
                 }
             }
-            
+
             lbAvailableApps.DataSource = apps;
         }
 
@@ -85,10 +96,6 @@ namespace ScreenshotSequence
             return default(IntPtr);
         }
 
-        #endregion
-
-        #region UI interaction
-
         private void btnRefresh_Click(object sender, EventArgs e)
         {
             LoadAvailableApps();
@@ -102,7 +109,7 @@ namespace ScreenshotSequence
             }
             else
             {
-                Stop();
+                BreakCurrentCaptureSequence();
             }
         }
 
@@ -114,26 +121,26 @@ namespace ScreenshotSequence
                 if (!string.IsNullOrEmpty(fbSelectFolder.SelectedPath))
                 {
                     _folderPath = fbSelectFolder.SelectedPath;
-                    lblOutputDirectory.Text = _folderPath;
+                    lblOutputDirectory.Text = "Output folder: " + _folderPath;
                 }
             }
         }
 
         private void EnableControls(bool enable)
         {
+            btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
+
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
             btnRefresh.Enabled = enable;
             cbClearFolder.Enabled = enable;
             lbAvailableApps.Enabled = enable;
-
-            btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
         }
 
         #endregion
 
-        #region Capture
+        #region Flow control
 
         private async Task Start()
         {
@@ -151,21 +158,25 @@ namespace ScreenshotSequence
 
             _isStarted = true;
 
-            _source = new CancellationTokenSource(600 * 1000); ////_source = new CancellationTokenSource((int)nudDuration.Value * 1000);
+            _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
+            
+            try
+            {
+                await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                EnableControls(true);
 
-            await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token).ConfigureAwait(false);
+                _isStarted = false;
+
+                DumpImages(cbClearFolder.Checked);
+            }
         }
 
-        private void Stop()
-        {
-            BreakCurrentCaptureSequence();
+        #endregion
 
-            EnableControls(true);
-
-            DumpImages(cbClearFolder.Checked);
-
-            _isStarted = false;
-        }
+        #region File I/O
 
         private void DumpImages(bool clear)
         {
@@ -194,45 +205,43 @@ namespace ScreenshotSequence
             }
         }
 
-        private void DumpImage(Image image, DirectoryInfo di) 
+        private void DumpImage(Bitmap image, DirectoryInfo di) 
         {
             if (di == null || image == null)
                 return;
 
-            // Are we sure that image is encoded in PNG format? Debug, and if not, see: https://www.codeproject.com/Questions/1197454/Save-system-drawing-image-as-PNG-without-interlace 
-            image.Save(Path.Combine(di.FullName, _appFriendlyName + "_" + new Guid().ToString().Replace("-", "") + ".png"), ImageFormat.Png); 
+            image.Save(Path.Combine(di.FullName, _appFriendlyName + "_" + GetRandomFileSuffix().Replace("-", "") + ".png"), ImageFormat.Png);
         }
 
-        private void StartNewCaptureSequence(int intervalms)
+        private string GetRandomFileSuffix()
+        {
+            return (_random.Next() * 900000000 + 100000000).ToString();
+        }
+
+        #endregion
+
+        #region Capture
+
+        private async Task StartNewCaptureSequence(int intervalms)
         {
             if (_source == null)
                 return;
 
-            int cTicks = Environment.TickCount;
-
             while (true)
             {
-                if (_source.IsCancellationRequested)
-                {
-                    Stop();
+                _source.Token.ThrowIfCancellationRequested();
 
-                    return;
+                var image = CaptureScreenshot(_selectedAppHandle);
+                if (image != null)
+                {
+                    _images.Add(image);
                 }
 
-                if (Environment.TickCount == cTicks + intervalms)
-                {
-                    cTicks = Environment.TickCount;
-
-                    var image = CaptureScreenshot(_selectedAppHandle);
-                    if (image != null)
-                    {
-                        _images.Add(image);
-                    }
-                }
+                await Task.Delay(intervalms);
             }
         }
 
-        private Image CaptureScreenshot(IntPtr handle)
+        private Bitmap CaptureScreenshot(IntPtr handle)
         {
             if (_selectedAppHandle == default(IntPtr))
                 return null;
@@ -242,7 +251,8 @@ namespace ScreenshotSequence
 
         private void BreakCurrentCaptureSequence()
         {
-            _source?.Cancel();
+            _source.Cancel();
+            _source.Dispose();
         }
 
         #endregion
