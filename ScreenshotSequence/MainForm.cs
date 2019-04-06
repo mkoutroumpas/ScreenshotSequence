@@ -126,6 +126,11 @@ namespace ScreenshotSequence
             }
         }
 
+        private void cbUsePrintScreen_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void EnableControls(bool enable)
         {
             _proceed = enable;
@@ -137,6 +142,7 @@ namespace ScreenshotSequence
             btnSelectFolder.Enabled = enable;
             btnRefresh.Enabled = enable;
             cbClearFolder.Enabled = enable;
+            cbUsePrintScreen.Enabled = enable;
             lbAvailableApps.Enabled = enable;
         }
 
@@ -158,7 +164,7 @@ namespace ScreenshotSequence
 
             EnableControls(false);
 
-            _proceed = await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token);
+            _proceed = await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked), _source.Token);
 
             EnableControls(!_proceed);
 
@@ -177,6 +183,12 @@ namespace ScreenshotSequence
                 return;
 
             DirectoryInfo di = new DirectoryInfo(_folderPath);
+
+            if (!di.Exists)
+            {
+                MessageBox.Show("Directory " + _folderPath + " not found.", "Missing folder", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
             if (clear)
             {
@@ -215,7 +227,7 @@ namespace ScreenshotSequence
 
         #region Capture
 
-        private async Task<bool> StartNewCaptureSequence(int intervalms)
+        private async Task<bool> StartNewCaptureSequence(int intervalms, bool screenshot = false)
         {
             if (_source == null)
                 return false;
@@ -227,7 +239,7 @@ namespace ScreenshotSequence
                 if (_source.IsCancellationRequested)
                     return false;
 
-                var image = CaptureScreenshot(_selectedAppHandle);
+                var image = screenshot ? _screenshot.PrintScreen() : CaptureScreenshot(_selectedAppHandle);
                 if (image != null)
                 {
                     _images.Add(image);

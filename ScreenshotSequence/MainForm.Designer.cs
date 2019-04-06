@@ -35,6 +35,7 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.cbUsePrintScreen = new System.Windows.Forms.CheckBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.lbAvailableApps = new System.Windows.Forms.ListBox();
             this.lblOpenApps = new System.Windows.Forms.Label();
@@ -108,6 +109,7 @@ namespace ScreenshotSequence
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.cbUsePrintScreen);
             this.pnlMain.Controls.Add(this.btnRefresh);
             this.pnlMain.Controls.Add(this.lbAvailableApps);
             this.pnlMain.Controls.Add(this.lblOpenApps);
@@ -125,11 +127,23 @@ namespace ScreenshotSequence
             this.pnlMain.Size = new System.Drawing.Size(525, 402);
             this.pnlMain.TabIndex = 4;
             // 
+            // cbUsePrintScreen
+            // 
+            this.cbUsePrintScreen.AutoSize = true;
+            this.cbUsePrintScreen.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbUsePrintScreen.Location = new System.Drawing.Point(22, 29);
+            this.cbUsePrintScreen.Name = "cbUsePrintScreen";
+            this.cbUsePrintScreen.Size = new System.Drawing.Size(107, 17);
+            this.cbUsePrintScreen.TabIndex = 12;
+            this.cbUsePrintScreen.Text = "Use Print screen:";
+            this.cbUsePrintScreen.UseVisualStyleBackColor = true;
+            this.cbUsePrintScreen.CheckedChanged += new System.EventHandler(this.cbUsePrintScreen_CheckedChanged);
+            // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(26, 83);
+            this.btnRefresh.Location = new System.Drawing.Point(26, 94);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(91, 49);
+            this.btnRefresh.Size = new System.Drawing.Size(91, 53);
             this.btnRefresh.TabIndex = 11;
             this.btnRefresh.Text = "Refresh";
             this.btnRefresh.UseVisualStyleBackColor = true;
@@ -138,15 +152,15 @@ namespace ScreenshotSequence
             // lbAvailableApps
             // 
             this.lbAvailableApps.FormattingEnabled = true;
-            this.lbAvailableApps.Location = new System.Drawing.Point(123, 24);
+            this.lbAvailableApps.Location = new System.Drawing.Point(123, 65);
             this.lbAvailableApps.Name = "lbAvailableApps";
-            this.lbAvailableApps.Size = new System.Drawing.Size(380, 108);
+            this.lbAvailableApps.Size = new System.Drawing.Size(380, 82);
             this.lbAvailableApps.TabIndex = 0;
             // 
             // lblOpenApps
             // 
             this.lblOpenApps.AutoSize = true;
-            this.lblOpenApps.Location = new System.Drawing.Point(23, 36);
+            this.lblOpenApps.Location = new System.Drawing.Point(23, 66);
             this.lblOpenApps.Name = "lblOpenApps";
             this.lblOpenApps.Size = new System.Drawing.Size(94, 13);
             this.lblOpenApps.TabIndex = 10;
@@ -251,6 +265,7 @@ namespace ScreenshotSequence
         private ListBox lbAvailableApps;
         private Label lblOpenApps;
         private Button btnRefresh;
+        private CheckBox cbUsePrintScreen;
     }
 }
 

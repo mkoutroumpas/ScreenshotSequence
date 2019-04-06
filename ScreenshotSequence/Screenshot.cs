@@ -1,11 +1,21 @@
 ﻿using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace ScreenshotSequence
 {
     public class Screenshot
     {
+        public Bitmap PrintScreen()
+        {
+            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Graphics graphics = Graphics.FromImage(printscreen as Image);
+            graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+
+            return printscreen;
+        }
+
         public Bitmap CaptureScreen()
         {
             return CaptureWindow(User32.GetDesktopWindow());
