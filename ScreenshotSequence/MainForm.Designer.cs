@@ -35,6 +35,7 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.btnRefresh = new System.Windows.Forms.Button();
             this.lbAvailableApps = new System.Windows.Forms.ListBox();
             this.lblOpenApps = new System.Windows.Forms.Label();
             this.lblDirectory = new System.Windows.Forms.Label();
@@ -43,7 +44,6 @@ namespace ScreenshotSequence
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnRefresh = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
@@ -125,6 +125,16 @@ namespace ScreenshotSequence
             this.pnlMain.Size = new System.Drawing.Size(525, 402);
             this.pnlMain.TabIndex = 4;
             // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(26, 83);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(91, 49);
+            this.btnRefresh.TabIndex = 11;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
             // lbAvailableApps
             // 
             this.lbAvailableApps.FormattingEnabled = true;
@@ -155,7 +165,7 @@ namespace ScreenshotSequence
             // 
             this.nudDuration.Location = new System.Drawing.Point(414, 153);
             this.nudDuration.Maximum = new decimal(new int[] {
-            10,
+            60,
             0,
             0,
             0});
@@ -202,16 +212,6 @@ namespace ScreenshotSequence
             this.btnSelectFolder.Text = "...";
             this.btnSelectFolder.UseVisualStyleBackColor = true;
             this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(26, 83);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(91, 49);
-            this.btnRefresh.TabIndex = 11;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
             // 
             // MainForm
             // 
