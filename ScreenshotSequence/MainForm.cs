@@ -15,7 +15,7 @@ namespace ScreenshotSequence
         #region Members
 
         private string _folderPath = "";
-        private bool _isStarted = false;
+        private bool _proceed = true;
         private Random _random;
 
         private CancellationTokenSource _source = null;
@@ -103,7 +103,7 @@ namespace ScreenshotSequence
 
         private async void btnStartStop_Click(object sender, EventArgs e)
         {
-            if (!_isStarted)
+            if (_proceed)
             {
                 await Start();
             }
@@ -128,6 +128,8 @@ namespace ScreenshotSequence
 
         private void EnableControls(bool enable)
         {
+            _proceed = enable;
+
             btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
 
             nudInterval.Enabled = enable;
@@ -150,30 +152,19 @@ namespace ScreenshotSequence
                 return;
             }
 
-            EnableControls(false);
-
             _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
 
-            _images.Clear();
-
-            _isStarted = true;
-
             _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
-            
-            try
-            {
-                await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token);
-            }
-            catch (OperationCanceledException)
-            {
-                EnableControls(true);
 
-                _isStarted = false;
+            EnableControls(false);
 
-                DumpImages(cbClearFolder.Checked);
+            _proceed = await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000), _source.Token);
 
-                _source.Dispose();
-            }
+            EnableControls(!_proceed);
+
+            DumpImages(cbClearFolder.Checked);
+
+            _source.Dispose();
         }
 
         #endregion
@@ -224,14 +215,17 @@ namespace ScreenshotSequence
 
         #region Capture
 
-        private async Task StartNewCaptureSequence(int intervalms)
+        private async Task<bool> StartNewCaptureSequence(int intervalms)
         {
             if (_source == null)
-                return;
+                return false;
+
+            _images.Clear();
 
             while (true)
             {
-                _source.Token.ThrowIfCancellationRequested();
+                if (_source.IsCancellationRequested)
+                    return false;
 
                 var image = CaptureScreenshot(_selectedAppHandle);
                 if (image != null)
