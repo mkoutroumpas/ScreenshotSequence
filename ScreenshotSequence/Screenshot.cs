@@ -21,14 +21,31 @@ namespace ScreenshotSequence
             return CaptureWindow(User32.GetDesktopWindow());
         }
 
+        public Bitmap CaptureWindow()
+        {
+            var foregroundWindowsHandle = User32.GetForegroundWindow();
+            var rect = new User32.RECT();
+            User32.GetWindowRect(foregroundWindowsHandle, ref rect);
+            var bounds = new Rectangle(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
+
+            var result = new Bitmap(bounds.Width, bounds.Height);
+
+            using (var g = Graphics.FromImage(result))
+            {
+                g.CopyFromScreen(new Point(bounds.Left, bounds.Top), Point.Empty, bounds.Size);
+            }
+
+            return result;
+        }
+
         public Bitmap CaptureWindow(IntPtr handle)
         {
             IntPtr hdcSrc = User32.GetWindowDC(handle);
 
             User32.RECT windowRect = new User32.RECT();
             User32.GetWindowRect(handle, ref windowRect);
-            int width = windowRect.right - windowRect.left;
-            int height = windowRect.bottom - windowRect.top;
+            int width = windowRect.Right - windowRect.Left;
+            int height = windowRect.Bottom - windowRect.Top;
             IntPtr hdcDest = GDI32.CreateCompatibleDC(hdcSrc);
             IntPtr hBitmap = GDI32.CreateCompatibleBitmap(hdcSrc, width, height);
             IntPtr hOld = GDI32.SelectObject(hdcDest, hBitmap);
@@ -49,10 +66,10 @@ namespace ScreenshotSequence
             [StructLayout(LayoutKind.Sequential)]
             public struct RECT
             {
-                public int left;
-                public int top;
-                public int right;
-                public int bottom;
+                public int Left;
+                public int Top;
+                public int Right;
+                public int Bottom;
             }
             [DllImport("user32.dll")]
             public static extern IntPtr GetDesktopWindow();
@@ -62,6 +79,8 @@ namespace ScreenshotSequence
             public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
             [DllImport("user32.dll")]
             public static extern IntPtr GetWindowRect(IntPtr hWnd, ref RECT rect);
+            [DllImport("user32.dll")]
+            public static extern IntPtr GetForegroundWindow();
         }
 
         class GDI32

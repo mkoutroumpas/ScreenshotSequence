@@ -48,7 +48,7 @@ namespace ScreenshotSequence
         private void MainForm_Load(object sender, EventArgs e)
         {
             EnableControls(true);
-
+            
             LoadAvailableApps();
         }
 
@@ -239,13 +239,13 @@ namespace ScreenshotSequence
                 if (_source.IsCancellationRequested)
                     return false;
 
+                await Task.Delay(intervalms);
+
                 var image = screenshot ? _screenshot.PrintScreen() : CaptureScreenshot(_selectedAppHandle);
                 if (image != null)
                 {
                     _images.Add(image);
                 }
-
-                await Task.Delay(intervalms);
             }
         }
 

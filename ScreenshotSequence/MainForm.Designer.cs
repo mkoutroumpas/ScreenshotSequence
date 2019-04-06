@@ -238,7 +238,6 @@ namespace ScreenshotSequence
             this.Name = "MainForm";
             this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Hide;
             this.Text = "Capture Screenshot Sequence";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MainForm_KeyPress);
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
