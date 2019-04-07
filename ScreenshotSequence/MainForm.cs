@@ -176,8 +176,6 @@ namespace ScreenshotSequence
             EnableControls(true);
 
             DumpImages(cbClearFolder.Checked);
-
-            _source.Dispose();
         }
 
         #endregion
