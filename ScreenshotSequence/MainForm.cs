@@ -18,6 +18,8 @@ namespace ScreenshotSequence
         private bool _proceed = true;
         private Random _random;
 
+        private int _startupDelay = 5000;
+
         private CancellationTokenSource _source = null;
         private IntPtr _selectedAppHandle = default(IntPtr);
 
@@ -137,6 +139,7 @@ namespace ScreenshotSequence
 
             btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
 
+            nudStartupDelay.Enabled = enable;
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
@@ -160,13 +163,17 @@ namespace ScreenshotSequence
 
             _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
 
-            _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
+            _startupDelay = (int)nudStartupDelay.Value * 1000;
+
+            _source = new CancellationTokenSource((int)nudDuration.Value * 1000 + _startupDelay);
 
             EnableControls(false);
 
-            _proceed = await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked), _source.Token);
+            await Task.Delay(_startupDelay);
 
-            EnableControls(!_proceed);
+            await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked), _source.Token);
+
+            EnableControls(true);
 
             DumpImages(cbClearFolder.Checked);
 
@@ -227,17 +234,17 @@ namespace ScreenshotSequence
 
         #region Capture
 
-        private async Task<bool> StartNewCaptureSequence(int intervalms, bool screenshot = false)
+        private async Task StartNewCaptureSequence(int intervalms, bool screenshot = false)
         {
             if (_source == null)
-                return false;
+                return;
 
             _images.Clear();
 
             while (true)
             {
                 if (_source.IsCancellationRequested)
-                    return false;
+                    return;
 
                 await Task.Delay(intervalms);
 
