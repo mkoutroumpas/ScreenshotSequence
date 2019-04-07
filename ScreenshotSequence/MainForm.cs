@@ -17,8 +17,7 @@ namespace ScreenshotSequence
         private string _folderPath = "";
         private bool _proceed = true;
         private Random _random;
-
-        private int _startupDelay = 5000;
+        private int _imageSuffix = 0;
 
         private CancellationTokenSource _source = null;
         private IntPtr _selectedAppHandle = default(IntPtr);
@@ -133,13 +132,19 @@ namespace ScreenshotSequence
 
         }
 
+        private void ShowWritingImagesOnButton()
+        {
+            btnStartStop.Enabled = false;
+            btnStartStop.Text = "Writing images ...";
+            btnStartStop.Enabled = true;
+        }
+
         private void EnableControls(bool enable)
         {
             _proceed = enable;
 
             btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
 
-            nudStartupDelay.Enabled = enable;
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
@@ -163,26 +168,26 @@ namespace ScreenshotSequence
 
             _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
 
-            _startupDelay = (int)nudStartupDelay.Value * 1000;
+            _imageSuffix = _random.Next() * 900000000 + 100000000;
 
-            _source = new CancellationTokenSource((int)nudDuration.Value * 1000 + _startupDelay);
+            _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
 
             EnableControls(false);
 
-            await Task.Delay(_startupDelay);
-
             await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked), _source.Token);
 
-            EnableControls(true);
+            ShowWritingImagesOnButton();
 
-            DumpImages(cbClearFolder.Checked);
+            await DumpImages(cbClearFolder.Checked);
+
+            EnableControls(true);
         }
 
         #endregion
 
         #region File I/O
 
-        private void DumpImages(bool clear)
+        private async Task DumpImages(bool clear)
         {
             if (string.IsNullOrEmpty(_folderPath))
                 return;
@@ -195,37 +200,35 @@ namespace ScreenshotSequence
                 return;
             }
 
-            if (clear)
+            await Task.Run(() =>
             {
-                foreach (var file in di.GetFiles())
+                if (clear)
                 {
-                    if (file.Name.Contains(_appFriendlyName))
+                    foreach (var file in di.GetFiles())
                     {
-                        file.Delete();
+                        if (file.Name.Contains(_appFriendlyName))
+                        {
+                            file.Delete();
+                        }
                     }
                 }
-            }
 
-            if (_images.Count > 0)
-            {
-                foreach (var image in _images)
+                if (_images.Count > 0)
                 {
-                    DumpImage(image, di);
+                    for (int i = 0; i < _images.Count; i++)
+                    {
+                        DumpImage(_images[i], di, i);
+                    }
                 }
-            }
+            });
         }
 
-        private void DumpImage(Bitmap image, DirectoryInfo di) 
+        private void DumpImage(Bitmap image, DirectoryInfo di, int i) 
         {
             if (di == null || image == null)
                 return;
 
-            image.Save(Path.Combine(di.FullName, _appFriendlyName + "_" + GetRandomFileSuffix().Replace("-", "") + ".png"), ImageFormat.Png);
-        }
-
-        private string GetRandomFileSuffix()
-        {
-            return (_random.Next() * 900000000 + 100000000).ToString();
+            image.Save(Path.Combine(di.FullName, _appFriendlyName + "_" + (_imageSuffix + i) + ".png"), ImageFormat.Png);
         }
 
         #endregion
