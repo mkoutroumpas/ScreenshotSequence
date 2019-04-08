@@ -45,9 +45,15 @@ namespace ScreenshotSequence
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
+            this.nudXMargin = new System.Windows.Forms.NumericUpDown();
+            this.lblXMargin = new System.Windows.Forms.Label();
+            this.nudYMargin = new System.Windows.Forms.NumericUpDown();
+            this.lblYMargin = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -91,7 +97,7 @@ namespace ScreenshotSequence
             // lblInterval
             // 
             this.lblInterval.AutoSize = true;
-            this.lblInterval.Location = new System.Drawing.Point(219, 192);
+            this.lblInterval.Location = new System.Drawing.Point(272, 192);
             this.lblInterval.Name = "lblInterval";
             this.lblInterval.Size = new System.Drawing.Size(133, 13);
             this.lblInterval.TabIndex = 2;
@@ -100,7 +106,7 @@ namespace ScreenshotSequence
             // lblOutputDirectory
             // 
             this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(24, 225);
+            this.lblOutputDirectory.Location = new System.Drawing.Point(31, 225);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(71, 13);
             this.lblOutputDirectory.TabIndex = 3;
@@ -109,6 +115,10 @@ namespace ScreenshotSequence
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.nudXMargin);
+            this.pnlMain.Controls.Add(this.lblXMargin);
+            this.pnlMain.Controls.Add(this.nudYMargin);
+            this.pnlMain.Controls.Add(this.lblYMargin);
             this.pnlMain.Controls.Add(this.cbUsePrintScreen);
             this.pnlMain.Controls.Add(this.btnRefresh);
             this.pnlMain.Controls.Add(this.lbAvailableApps);
@@ -171,7 +181,7 @@ namespace ScreenshotSequence
             // lblDirectory
             // 
             this.lblDirectory.AutoSize = true;
-            this.lblDirectory.Location = new System.Drawing.Point(96, 225);
+            this.lblDirectory.Location = new System.Drawing.Point(103, 225);
             this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
             this.lblDirectory.Name = "lblDirectory";
             this.lblDirectory.Size = new System.Drawing.Size(0, 13);
@@ -202,7 +212,7 @@ namespace ScreenshotSequence
             // lblCaptureDuration
             // 
             this.lblCaptureDuration.AutoSize = true;
-            this.lblCaptureDuration.Location = new System.Drawing.Point(219, 166);
+            this.lblCaptureDuration.Location = new System.Drawing.Point(272, 166);
             this.lblCaptureDuration.Name = "lblCaptureDuration";
             this.lblCaptureDuration.Size = new System.Drawing.Size(137, 13);
             this.lblCaptureDuration.TabIndex = 8;
@@ -212,7 +222,7 @@ namespace ScreenshotSequence
             // 
             this.cbClearFolder.AutoSize = true;
             this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbClearFolder.Location = new System.Drawing.Point(23, 254);
+            this.cbClearFolder.Location = new System.Drawing.Point(30, 254);
             this.cbClearFolder.Name = "cbClearFolder";
             this.cbClearFolder.Size = new System.Drawing.Size(139, 17);
             this.cbClearFolder.TabIndex = 4;
@@ -228,6 +238,63 @@ namespace ScreenshotSequence
             this.btnSelectFolder.Text = "...";
             this.btnSelectFolder.UseVisualStyleBackColor = true;
             this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
+            // 
+            // nudXMargin
+            // 
+            this.nudXMargin.Location = new System.Drawing.Point(123, 166);
+            this.nudXMargin.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.nudXMargin.Name = "nudXMargin";
+            this.nudXMargin.Size = new System.Drawing.Size(89, 20);
+            this.nudXMargin.TabIndex = 13;
+            this.nudXMargin.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblXMargin
+            // 
+            this.lblXMargin.AutoSize = true;
+            this.lblXMargin.Location = new System.Drawing.Point(31, 166);
+            this.lblXMargin.Name = "lblXMargin";
+            this.lblXMargin.Size = new System.Drawing.Size(86, 13);
+            this.lblXMargin.TabIndex = 16;
+            this.lblXMargin.Text = "X margin (pixels):";
+            // 
+            // nudYMargin
+            // 
+            this.nudYMargin.Location = new System.Drawing.Point(123, 192);
+            this.nudYMargin.Maximum = new decimal(new int[] {
+            600,
+            0,
+            0,
+            0});
+            this.nudYMargin.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudYMargin.Name = "nudYMargin";
+            this.nudYMargin.Size = new System.Drawing.Size(89, 20);
+            this.nudYMargin.TabIndex = 14;
+            this.nudYMargin.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblYMargin
+            // 
+            this.lblYMargin.AutoSize = true;
+            this.lblYMargin.Location = new System.Drawing.Point(31, 192);
+            this.lblYMargin.Name = "lblYMargin";
+            this.lblYMargin.Size = new System.Drawing.Size(86, 13);
+            this.lblYMargin.TabIndex = 15;
+            this.lblYMargin.Text = "Y margin (pixels):";
             // 
             // MainForm
             // 
@@ -246,6 +313,8 @@ namespace ScreenshotSequence
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -267,6 +336,10 @@ namespace ScreenshotSequence
         private Label lblOpenApps;
         private Button btnRefresh;
         private CheckBox cbUsePrintScreen;
+        private NumericUpDown nudXMargin;
+        private Label lblXMargin;
+        private NumericUpDown nudYMargin;
+        private Label lblYMargin;
     }
 }
 

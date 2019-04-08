@@ -145,6 +145,8 @@ namespace ScreenshotSequence
 
             btnStartStop.Text = enable ? "Start (F11)" : "Stop (F12)";
 
+            nudXMargin.Enabled = enable;
+            nudYMargin.Enabled = enable;
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
             btnSelectFolder.Enabled = enable;
@@ -174,7 +176,7 @@ namespace ScreenshotSequence
 
             EnableControls(false);
 
-            await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked), _source.Token);
+            await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked, (int)nudXMargin.Value, (int)nudYMargin.Value), _source.Token);
 
             ShowWritingImagesOnButton();
 
@@ -235,7 +237,7 @@ namespace ScreenshotSequence
 
         #region Capture
 
-        private async Task StartNewCaptureSequence(int intervalms, bool screenshot = false)
+        private async Task StartNewCaptureSequence(int intervalms, bool screenshot = false, int xmargin = 0, int ymargin = 0)
         {
             if (_source == null)
                 return;
@@ -249,7 +251,7 @@ namespace ScreenshotSequence
 
                 await Task.Delay(intervalms);
 
-                var image = screenshot ? _screenshot.PrintScreen() : CaptureScreenshot(_selectedAppHandle);
+                var image = screenshot ? _screenshot.PrintScreen(xmargin, ymargin) : CaptureScreenshot(_selectedAppHandle);
                 if (image != null)
                 {
                     _images.Add(image);

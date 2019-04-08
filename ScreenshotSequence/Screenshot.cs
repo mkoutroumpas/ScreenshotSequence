@@ -7,11 +7,11 @@ namespace ScreenshotSequence
 {
     public class Screenshot
     {
-        public Bitmap PrintScreen()
+        public Bitmap PrintScreen(int xmargin = 0, int ymargin = 0)
         {
-            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+            Bitmap printscreen = new Bitmap(Screen.PrimaryScreen.Bounds.Width - 2 * xmargin, Screen.PrimaryScreen.Bounds.Height - 2 * ymargin);
             Graphics graphics = Graphics.FromImage(printscreen as Image);
-            graphics.CopyFromScreen(0, 0, 0, 0, printscreen.Size);
+            graphics.CopyFromScreen(xmargin, ymargin, 0, 0, printscreen.Size);
 
             return printscreen;
         }
