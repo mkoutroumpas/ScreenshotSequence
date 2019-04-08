@@ -106,7 +106,7 @@ namespace ScreenshotSequence
             // lblOutputDirectory
             // 
             this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(31, 225);
+            this.lblOutputDirectory.Location = new System.Drawing.Point(31, 238);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(71, 13);
             this.lblOutputDirectory.TabIndex = 3;
@@ -181,7 +181,7 @@ namespace ScreenshotSequence
             // lblDirectory
             // 
             this.lblDirectory.AutoSize = true;
-            this.lblDirectory.Location = new System.Drawing.Point(103, 225);
+            this.lblDirectory.Location = new System.Drawing.Point(103, 238);
             this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
             this.lblDirectory.Name = "lblDirectory";
             this.lblDirectory.Size = new System.Drawing.Size(0, 13);
@@ -222,7 +222,7 @@ namespace ScreenshotSequence
             // 
             this.cbClearFolder.AutoSize = true;
             this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbClearFolder.Location = new System.Drawing.Point(30, 254);
+            this.cbClearFolder.Location = new System.Drawing.Point(30, 267);
             this.cbClearFolder.Name = "cbClearFolder";
             this.cbClearFolder.Size = new System.Drawing.Size(139, 17);
             this.cbClearFolder.TabIndex = 4;
@@ -231,7 +231,7 @@ namespace ScreenshotSequence
             // 
             // btnSelectFolder
             // 
-            this.btnSelectFolder.Location = new System.Drawing.Point(469, 220);
+            this.btnSelectFolder.Location = new System.Drawing.Point(468, 233);
             this.btnSelectFolder.Name = "btnSelectFolder";
             this.btnSelectFolder.Size = new System.Drawing.Size(35, 22);
             this.btnSelectFolder.TabIndex = 3;

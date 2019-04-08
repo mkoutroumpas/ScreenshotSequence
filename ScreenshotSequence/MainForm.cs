@@ -264,7 +264,7 @@ namespace ScreenshotSequence
             if (_selectedAppHandle == default(IntPtr))
                 return null;
 
-            return _screenshot?.CaptureWindow(handle);
+            return _screenshot.CaptureWindow(handle);
         }
 
         private void BreakCurrentCaptureSequence()
