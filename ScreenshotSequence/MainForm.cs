@@ -149,6 +149,7 @@ namespace ScreenshotSequence
             nudYMargin.Enabled = enable;
             nudInterval.Enabled = enable;
             nudDuration.Enabled = enable;
+            nudStartupDelay.Enabled = enable;
             btnSelectFolder.Enabled = enable;
             btnRefresh.Enabled = enable;
             cbClearFolder.Enabled = enable;
@@ -168,13 +169,19 @@ namespace ScreenshotSequence
                 return;
             }
 
+            EnableControls(false);
+
+            btnStartStop.Text = "Waiting ...";
+
+            await Task.Delay((int)nudStartupDelay.Value * 1000);
+
+            btnStartStop.Text = "Capturing ...";
+
             _selectedAppHandle = GetAppWindowHanle(lbAvailableApps.SelectedItem.ToString());
 
             _imageSuffix = _random.Next() * 900000000 + 100000000;
 
             _source = new CancellationTokenSource((int)nudDuration.Value * 1000);
-
-            EnableControls(false);
 
             await Task.Run(() => StartNewCaptureSequence((int)nudInterval.Value * 1000, cbUsePrintScreen.Checked, (int)nudXMargin.Value, (int)nudYMargin.Value), _source.Token);
 

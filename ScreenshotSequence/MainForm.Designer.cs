@@ -35,6 +35,10 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.nudXMargin = new System.Windows.Forms.NumericUpDown();
+            this.lblXMargin = new System.Windows.Forms.Label();
+            this.nudYMargin = new System.Windows.Forms.NumericUpDown();
+            this.lblYMargin = new System.Windows.Forms.Label();
             this.cbUsePrintScreen = new System.Windows.Forms.CheckBox();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.lbAvailableApps = new System.Windows.Forms.ListBox();
@@ -45,15 +49,14 @@ namespace ScreenshotSequence
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.nudXMargin = new System.Windows.Forms.NumericUpDown();
-            this.lblXMargin = new System.Windows.Forms.Label();
-            this.nudYMargin = new System.Windows.Forms.NumericUpDown();
-            this.lblYMargin = new System.Windows.Forms.Label();
+            this.nudStartupDelay = new System.Windows.Forms.NumericUpDown();
+            this.lblStartupDelay = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -68,15 +71,9 @@ namespace ScreenshotSequence
             // 
             // nudInterval
             // 
-            this.nudInterval.DecimalPlaces = 1;
-            this.nudInterval.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            65536});
-            this.nudInterval.Location = new System.Drawing.Point(415, 190);
+            this.nudInterval.Location = new System.Drawing.Point(449, 190);
             this.nudInterval.Maximum = new decimal(new int[] {
-            3,
+            5,
             0,
             0,
             0});
@@ -86,7 +83,7 @@ namespace ScreenshotSequence
             0,
             0});
             this.nudInterval.Name = "nudInterval";
-            this.nudInterval.Size = new System.Drawing.Size(89, 20);
+            this.nudInterval.Size = new System.Drawing.Size(54, 20);
             this.nudInterval.TabIndex = 2;
             this.nudInterval.Value = new decimal(new int[] {
             1,
@@ -106,7 +103,7 @@ namespace ScreenshotSequence
             // lblOutputDirectory
             // 
             this.lblOutputDirectory.AutoSize = true;
-            this.lblOutputDirectory.Location = new System.Drawing.Point(31, 238);
+            this.lblOutputDirectory.Location = new System.Drawing.Point(31, 257);
             this.lblOutputDirectory.Name = "lblOutputDirectory";
             this.lblOutputDirectory.Size = new System.Drawing.Size(71, 13);
             this.lblOutputDirectory.TabIndex = 3;
@@ -115,6 +112,8 @@ namespace ScreenshotSequence
             // pnlMain
             // 
             this.pnlMain.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMain.Controls.Add(this.nudStartupDelay);
+            this.pnlMain.Controls.Add(this.lblStartupDelay);
             this.pnlMain.Controls.Add(this.nudXMargin);
             this.pnlMain.Controls.Add(this.lblXMargin);
             this.pnlMain.Controls.Add(this.nudYMargin);
@@ -136,108 +135,6 @@ namespace ScreenshotSequence
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(525, 402);
             this.pnlMain.TabIndex = 4;
-            // 
-            // cbUsePrintScreen
-            // 
-            this.cbUsePrintScreen.AutoSize = true;
-            this.cbUsePrintScreen.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbUsePrintScreen.Checked = true;
-            this.cbUsePrintScreen.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbUsePrintScreen.Location = new System.Drawing.Point(22, 29);
-            this.cbUsePrintScreen.Name = "cbUsePrintScreen";
-            this.cbUsePrintScreen.Size = new System.Drawing.Size(107, 17);
-            this.cbUsePrintScreen.TabIndex = 12;
-            this.cbUsePrintScreen.Text = "Use Print screen:";
-            this.cbUsePrintScreen.UseVisualStyleBackColor = true;
-            this.cbUsePrintScreen.CheckedChanged += new System.EventHandler(this.cbUsePrintScreen_CheckedChanged);
-            // 
-            // btnRefresh
-            // 
-            this.btnRefresh.Location = new System.Drawing.Point(26, 94);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(91, 53);
-            this.btnRefresh.TabIndex = 11;
-            this.btnRefresh.Text = "Refresh";
-            this.btnRefresh.UseVisualStyleBackColor = true;
-            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
-            // 
-            // lbAvailableApps
-            // 
-            this.lbAvailableApps.FormattingEnabled = true;
-            this.lbAvailableApps.Location = new System.Drawing.Point(123, 65);
-            this.lbAvailableApps.Name = "lbAvailableApps";
-            this.lbAvailableApps.Size = new System.Drawing.Size(380, 82);
-            this.lbAvailableApps.TabIndex = 0;
-            // 
-            // lblOpenApps
-            // 
-            this.lblOpenApps.AutoSize = true;
-            this.lblOpenApps.Location = new System.Drawing.Point(23, 66);
-            this.lblOpenApps.Name = "lblOpenApps";
-            this.lblOpenApps.Size = new System.Drawing.Size(94, 13);
-            this.lblOpenApps.TabIndex = 10;
-            this.lblOpenApps.Text = "Select application:";
-            // 
-            // lblDirectory
-            // 
-            this.lblDirectory.AutoSize = true;
-            this.lblDirectory.Location = new System.Drawing.Point(103, 238);
-            this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
-            this.lblDirectory.Name = "lblDirectory";
-            this.lblDirectory.Size = new System.Drawing.Size(0, 13);
-            this.lblDirectory.TabIndex = 9;
-            // 
-            // nudDuration
-            // 
-            this.nudDuration.Location = new System.Drawing.Point(415, 164);
-            this.nudDuration.Maximum = new decimal(new int[] {
-            60,
-            0,
-            0,
-            0});
-            this.nudDuration.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            this.nudDuration.Name = "nudDuration";
-            this.nudDuration.Size = new System.Drawing.Size(89, 20);
-            this.nudDuration.TabIndex = 1;
-            this.nudDuration.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lblCaptureDuration
-            // 
-            this.lblCaptureDuration.AutoSize = true;
-            this.lblCaptureDuration.Location = new System.Drawing.Point(272, 166);
-            this.lblCaptureDuration.Name = "lblCaptureDuration";
-            this.lblCaptureDuration.Size = new System.Drawing.Size(137, 13);
-            this.lblCaptureDuration.TabIndex = 8;
-            this.lblCaptureDuration.Text = "Capture duration (seconds):";
-            // 
-            // cbClearFolder
-            // 
-            this.cbClearFolder.AutoSize = true;
-            this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbClearFolder.Location = new System.Drawing.Point(30, 267);
-            this.cbClearFolder.Name = "cbClearFolder";
-            this.cbClearFolder.Size = new System.Drawing.Size(139, 17);
-            this.cbClearFolder.TabIndex = 4;
-            this.cbClearFolder.Text = "Empty output folder first:";
-            this.cbClearFolder.UseVisualStyleBackColor = true;
-            // 
-            // btnSelectFolder
-            // 
-            this.btnSelectFolder.Location = new System.Drawing.Point(468, 233);
-            this.btnSelectFolder.Name = "btnSelectFolder";
-            this.btnSelectFolder.Size = new System.Drawing.Size(35, 22);
-            this.btnSelectFolder.TabIndex = 3;
-            this.btnSelectFolder.Text = "...";
-            this.btnSelectFolder.UseVisualStyleBackColor = true;
-            this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
             // 
             // nudXMargin
             // 
@@ -296,6 +193,134 @@ namespace ScreenshotSequence
             this.lblYMargin.TabIndex = 15;
             this.lblYMargin.Text = "Y margin (pixels):";
             // 
+            // cbUsePrintScreen
+            // 
+            this.cbUsePrintScreen.AutoSize = true;
+            this.cbUsePrintScreen.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbUsePrintScreen.Checked = true;
+            this.cbUsePrintScreen.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbUsePrintScreen.Location = new System.Drawing.Point(22, 29);
+            this.cbUsePrintScreen.Name = "cbUsePrintScreen";
+            this.cbUsePrintScreen.Size = new System.Drawing.Size(107, 17);
+            this.cbUsePrintScreen.TabIndex = 12;
+            this.cbUsePrintScreen.Text = "Use Print screen:";
+            this.cbUsePrintScreen.UseVisualStyleBackColor = true;
+            this.cbUsePrintScreen.CheckedChanged += new System.EventHandler(this.cbUsePrintScreen_CheckedChanged);
+            // 
+            // btnRefresh
+            // 
+            this.btnRefresh.Location = new System.Drawing.Point(26, 94);
+            this.btnRefresh.Name = "btnRefresh";
+            this.btnRefresh.Size = new System.Drawing.Size(91, 53);
+            this.btnRefresh.TabIndex = 11;
+            this.btnRefresh.Text = "Refresh";
+            this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+            // 
+            // lbAvailableApps
+            // 
+            this.lbAvailableApps.FormattingEnabled = true;
+            this.lbAvailableApps.Location = new System.Drawing.Point(123, 65);
+            this.lbAvailableApps.Name = "lbAvailableApps";
+            this.lbAvailableApps.Size = new System.Drawing.Size(380, 82);
+            this.lbAvailableApps.TabIndex = 0;
+            // 
+            // lblOpenApps
+            // 
+            this.lblOpenApps.AutoSize = true;
+            this.lblOpenApps.Location = new System.Drawing.Point(23, 66);
+            this.lblOpenApps.Name = "lblOpenApps";
+            this.lblOpenApps.Size = new System.Drawing.Size(94, 13);
+            this.lblOpenApps.TabIndex = 10;
+            this.lblOpenApps.Text = "Select application:";
+            // 
+            // lblDirectory
+            // 
+            this.lblDirectory.AutoSize = true;
+            this.lblDirectory.Location = new System.Drawing.Point(103, 257);
+            this.lblDirectory.MaximumSize = new System.Drawing.Size(140, 0);
+            this.lblDirectory.Name = "lblDirectory";
+            this.lblDirectory.Size = new System.Drawing.Size(0, 13);
+            this.lblDirectory.TabIndex = 9;
+            // 
+            // nudDuration
+            // 
+            this.nudDuration.Location = new System.Drawing.Point(449, 164);
+            this.nudDuration.Maximum = new decimal(new int[] {
+            60,
+            0,
+            0,
+            0});
+            this.nudDuration.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.nudDuration.Name = "nudDuration";
+            this.nudDuration.Size = new System.Drawing.Size(54, 20);
+            this.nudDuration.TabIndex = 1;
+            this.nudDuration.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblCaptureDuration
+            // 
+            this.lblCaptureDuration.AutoSize = true;
+            this.lblCaptureDuration.Location = new System.Drawing.Point(272, 166);
+            this.lblCaptureDuration.Name = "lblCaptureDuration";
+            this.lblCaptureDuration.Size = new System.Drawing.Size(137, 13);
+            this.lblCaptureDuration.TabIndex = 8;
+            this.lblCaptureDuration.Text = "Capture duration (seconds):";
+            // 
+            // cbClearFolder
+            // 
+            this.cbClearFolder.AutoSize = true;
+            this.cbClearFolder.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbClearFolder.Location = new System.Drawing.Point(30, 286);
+            this.cbClearFolder.Name = "cbClearFolder";
+            this.cbClearFolder.Size = new System.Drawing.Size(139, 17);
+            this.cbClearFolder.TabIndex = 4;
+            this.cbClearFolder.Text = "Empty output folder first:";
+            this.cbClearFolder.UseVisualStyleBackColor = true;
+            // 
+            // btnSelectFolder
+            // 
+            this.btnSelectFolder.Location = new System.Drawing.Point(449, 252);
+            this.btnSelectFolder.Name = "btnSelectFolder";
+            this.btnSelectFolder.Size = new System.Drawing.Size(54, 22);
+            this.btnSelectFolder.TabIndex = 3;
+            this.btnSelectFolder.Text = "...";
+            this.btnSelectFolder.UseVisualStyleBackColor = true;
+            this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
+            // 
+            // nudStartupDelay
+            // 
+            this.nudStartupDelay.Location = new System.Drawing.Point(449, 218);
+            this.nudStartupDelay.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudStartupDelay.Name = "nudStartupDelay";
+            this.nudStartupDelay.Size = new System.Drawing.Size(54, 20);
+            this.nudStartupDelay.TabIndex = 17;
+            this.nudStartupDelay.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblStartupDelay
+            // 
+            this.lblStartupDelay.AutoSize = true;
+            this.lblStartupDelay.Location = new System.Drawing.Point(272, 220);
+            this.lblStartupDelay.Name = "lblStartupDelay";
+            this.lblStartupDelay.Size = new System.Drawing.Size(121, 13);
+            this.lblStartupDelay.TabIndex = 18;
+            this.lblStartupDelay.Text = "Startup delay (seconds):";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -312,9 +337,10 @@ namespace ScreenshotSequence
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -340,6 +366,8 @@ namespace ScreenshotSequence
         private Label lblXMargin;
         private NumericUpDown nudYMargin;
         private Label lblYMargin;
+        private NumericUpDown nudStartupDelay;
+        private Label lblStartupDelay;
     }
 }
 
