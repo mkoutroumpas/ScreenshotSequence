@@ -35,6 +35,8 @@ namespace ScreenshotSequence
             this.lblInterval = new System.Windows.Forms.Label();
             this.lblOutputDirectory = new System.Windows.Forms.Label();
             this.pnlMain = new System.Windows.Forms.Panel();
+            this.nudStartupDelay = new System.Windows.Forms.NumericUpDown();
+            this.lblStartupDelay = new System.Windows.Forms.Label();
             this.nudXMargin = new System.Windows.Forms.NumericUpDown();
             this.lblXMargin = new System.Windows.Forms.Label();
             this.nudYMargin = new System.Windows.Forms.NumericUpDown();
@@ -49,14 +51,12 @@ namespace ScreenshotSequence
             this.cbClearFolder = new System.Windows.Forms.CheckBox();
             this.btnSelectFolder = new System.Windows.Forms.Button();
             this.fbSelectFolder = new System.Windows.Forms.FolderBrowserDialog();
-            this.nudStartupDelay = new System.Windows.Forms.NumericUpDown();
-            this.lblStartupDelay = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).BeginInit();
             this.pnlMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStartStop
@@ -135,6 +135,32 @@ namespace ScreenshotSequence
             this.pnlMain.Name = "pnlMain";
             this.pnlMain.Size = new System.Drawing.Size(525, 402);
             this.pnlMain.TabIndex = 4;
+            // 
+            // nudStartupDelay
+            // 
+            this.nudStartupDelay.Location = new System.Drawing.Point(449, 218);
+            this.nudStartupDelay.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.nudStartupDelay.Name = "nudStartupDelay";
+            this.nudStartupDelay.Size = new System.Drawing.Size(54, 20);
+            this.nudStartupDelay.TabIndex = 17;
+            this.nudStartupDelay.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
+            // lblStartupDelay
+            // 
+            this.lblStartupDelay.AutoSize = true;
+            this.lblStartupDelay.Location = new System.Drawing.Point(272, 220);
+            this.lblStartupDelay.Name = "lblStartupDelay";
+            this.lblStartupDelay.Size = new System.Drawing.Size(121, 13);
+            this.lblStartupDelay.TabIndex = 18;
+            this.lblStartupDelay.Text = "Startup delay (seconds):";
             // 
             // nudXMargin
             // 
@@ -247,7 +273,7 @@ namespace ScreenshotSequence
             // 
             this.nudDuration.Location = new System.Drawing.Point(449, 164);
             this.nudDuration.Maximum = new decimal(new int[] {
-            60,
+            240,
             0,
             0,
             0});
@@ -295,32 +321,6 @@ namespace ScreenshotSequence
             this.btnSelectFolder.UseVisualStyleBackColor = true;
             this.btnSelectFolder.Click += new System.EventHandler(this.btnSelectFolder_Click);
             // 
-            // nudStartupDelay
-            // 
-            this.nudStartupDelay.Location = new System.Drawing.Point(449, 218);
-            this.nudStartupDelay.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-            this.nudStartupDelay.Name = "nudStartupDelay";
-            this.nudStartupDelay.Size = new System.Drawing.Size(54, 20);
-            this.nudStartupDelay.TabIndex = 17;
-            this.nudStartupDelay.Value = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-            // 
-            // lblStartupDelay
-            // 
-            this.lblStartupDelay.AutoSize = true;
-            this.lblStartupDelay.Location = new System.Drawing.Point(272, 220);
-            this.lblStartupDelay.Name = "lblStartupDelay";
-            this.lblStartupDelay.Size = new System.Drawing.Size(121, 13);
-            this.lblStartupDelay.TabIndex = 18;
-            this.lblStartupDelay.Text = "Startup delay (seconds):";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -337,10 +337,10 @@ namespace ScreenshotSequence
             ((System.ComponentModel.ISupportInitialize)(this.nudInterval)).EndInit();
             this.pnlMain.ResumeLayout(false);
             this.pnlMain.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudXMargin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudYMargin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuration)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.nudStartupDelay)).EndInit();
             this.ResumeLayout(false);
 
         }
