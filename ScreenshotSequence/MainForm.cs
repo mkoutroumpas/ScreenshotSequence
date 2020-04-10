@@ -34,6 +34,8 @@ namespace ScreenshotSequence
 
         public MainForm()
         {
+            // And this is an additional test change in branch change-one.
+
             InitializeComponent();
 
             _appFriendlyName = AppDomain.CurrentDomain.FriendlyName.Replace(".exe", "");
