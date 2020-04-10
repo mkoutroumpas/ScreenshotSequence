@@ -27,7 +27,7 @@ namespace ScreenshotSequence
         private readonly List<Bitmap> _images = null;
 
         // This is a test change in branch change-one.
-
+        // Additional test change for change-two.
         #endregion
 
         #region Initialization
